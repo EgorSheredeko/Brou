@@ -1,0 +1,17 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+
+/* Скрыть скролл */
+html, body {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Подключаем красивый шрифт */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+.font-sans {
+  font-family: 'Nunito', sans-serif;
+}
