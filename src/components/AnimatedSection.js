@@ -1,32 +1,39 @@
-'use client';
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 
-function AnimatedSection({ children }) {
+export default function AnimatedSection({ children }) {
   const ref = useRef();
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Если секция видна — включаем анимацию
-        if (entry.isIntersecting) setVisible(true);
-        else setVisible(false); // Если выходит за экран — сбрасываем, чтобы анимация повторялась
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.2 }
+      {
+        threshold: 0.3, // секция считается видимой, когда 30% в viewport
+      }
     );
 
     if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
   }, []);
 
   return (
-    <section
+    <div
       ref={ref}
-      className={`transition-all duration-[1200ms] ease-out transform 
-                  ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0px)" : "translateY(30px)",
+        transition: "opacity 0.8s ease, transform 0.8s ease",
+        willChange: "opacity, transform",
+      }}
     >
       {children}
-    </section>
+    </div>
   );
 }
