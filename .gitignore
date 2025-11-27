@@ -1,5 +1,11 @@
-# .gitignore
 node_modules/
 .next/
-.DS_Store
+dist/
 .env
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+vercel/
